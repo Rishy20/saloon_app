@@ -13,25 +13,35 @@ import 'package:saloon_app/services/specialist.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class AddSpecialistForm extends StatefulWidget {
+class EditSpecialistForm extends StatefulWidget {
   @override
-  _AddSpecialistFormState createState() => _AddSpecialistFormState();
+  _EditSpecialistFormState createState() => _EditSpecialistFormState();
+  Specialist specialist;
+  EditSpecialistForm({required this.specialist});
 }
 
-class _AddSpecialistFormState extends State<AddSpecialistForm> {
+class _EditSpecialistFormState extends State<EditSpecialistForm> {
   final List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
+  late Specialist specialist;
+  
+
   File? imageFile;
-  bool imageError = false;
-  bool isSaving = false;
 
   TextEditingController fname = new TextEditingController();
   TextEditingController lname = new TextEditingController();
   TextEditingController contact = new TextEditingController();
   TextEditingController designation = new TextEditingController();
 
+  void initState(){
+    specialist = widget.specialist;
 
+    fname.text = specialist.firstName;
+    lname.text = specialist.lastName;
+    contact.text = specialist.contact;
+    designation.text = specialist.designation;
 
+  }
   void addError({String error = ''}) {
     if (!errors.contains(error))
       setState(() {
@@ -48,25 +58,7 @@ class _AddSpecialistFormState extends State<AddSpecialistForm> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height - 200;
-    return isSaving?
-        Container(
-              width: double.infinity,
-              alignment: Alignment.center,
-              height: height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text("Saving Specialist",style: TextStyle(fontSize: 16),),
-                  )
-                  ],
-              ),
-        ):Form(
+    return Form(
         key: _formKey,
         child: Column(children: [
           buildTextFormField(
@@ -93,6 +85,15 @@ class _AddSpecialistFormState extends State<AddSpecialistForm> {
               error: "Please enter a designation",
               controller: designation,
               type: "text"),
+              
+             imageFile == null && specialist.image != "" ? Padding(
+                 padding: const EdgeInsets.only(bottom:16.0),
+                 child: Container(
+              child:  Image.network(
+                  specialist.image,
+                  width: 150,
+                  fit: BoxFit.cover,
+              ))):Container(),
 
               imageFile != null ? Padding(
                  padding: const EdgeInsets.only(bottom:16.0),
@@ -103,40 +104,31 @@ class _AddSpecialistFormState extends State<AddSpecialistForm> {
                   fit: BoxFit.cover,
               )),
                ):Container(),
+
+
                PrimaryButton(
-              text: "Upload Specialist Image",
+              text: "Edit Specialist Image",
               press: () {
                 _getFromGallery();
               }),
-              SizedBox(height: 5),
-              imageError?
-              FormError(error: "Please upload an image"):Container(),
               SizedBox(height: 20,),
              
           SecondaryButton(
               text: "Submit",
               press: () async{
-                if(imageFile == null){
-                  setState(() {
-                  imageError = true;
-                    
-                  });
-                }
-                if (_formKey.currentState!.validate() && !imageError) {
-                  Specialist specialist = Specialist();
+                if (_formKey.currentState!.validate()) {
                   specialist.firstName = fname.text;
                   specialist.lastName = lname.text;
                   specialist.contact = contact.text;
                   specialist.designation = designation.text;
-                  setState(() {
-                  isSaving = true;
-                    
-                  });
+
                   SpecialistService specialistService = SpecialistService();
-                  var imageUrl = await specialistService.uploadSpecialistImage(imageFile!);
-                  specialist.image = imageUrl;
-                  specialistService.addSpecialist(specialist);
-                       Navigator.pushNamed(
+                  if(imageFile != null){
+                    var imageUrl = await specialistService.uploadSpecialistImage(imageFile!);
+                    specialist.image = imageUrl;
+                  }
+                  specialistService.updateSpecialist(specialist);
+                   Navigator.pushNamed(
             context, AllSpecialistScreen.routeName);
                 }
               })
@@ -224,7 +216,6 @@ class _AddSpecialistFormState extends State<AddSpecialistForm> {
     if (croppedImage != null) {
       setState(() {
       imageFile = croppedImage;
-      imageError = false;
 
       });
     }
