@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:saloon_app/constants.dart';
-import 'package:saloon_app/size_config.dart';
+import '../constants.dart';
+import '../size_config.dart';
 
-class DefaultButton extends StatelessWidget {
-  const DefaultButton({
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton({
     Key? key,
     this.text,
     this.press,
   }) : super(key: key);
-
   final String? text;
   final Function? press;
 
@@ -20,21 +19,20 @@ class DefaultButton extends StatelessWidget {
       height: getProportionateScreenHeight(56),
       child: TextButton(
         style: TextButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           primary: Colors.white,
-          backgroundColor: kSecondaryColor,
+          backgroundColor: Colors.white,
         ),
         onPressed: press as void Function()?,
         child: Text(
           text!,
           style: TextStyle(
-            fontSize: getProportionateScreenWidth(18),
-            color: Colors.black,
-          )
+            fontSize: getProportionateScreenWidth(14),
+            fontWeight: FontWeight.w600,
+            color: kPrimaryColor,
+          ),
         ),
-      )
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 20,),
         const ProfilePic(),
         const SizedBox(height: 20,),
         ProfileMenu(
@@ -20,16 +21,6 @@ class Body extends StatelessWidget {
           press: () {
             Navigator.pushNamed(context, MyAccountScreen.routeName);
           }
-        ),
-        ProfileMenu(
-          icon: 'assets/icons/Bell.svg',
-          text: 'Notifications',
-          press: () {}
-        ),
-        ProfileMenu(
-          icon: 'assets/icons/Settings.svg',
-          text: 'Settings',
-          press: () {}
         ),
         ProfileMenu(
           icon: 'assets/icons/Log out.svg',

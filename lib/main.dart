@@ -1,14 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/routes.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
+import 'package:saloon_app/screens/profile/profile_screen.dart';
 import 'package:saloon_app/size_config.dart';
 import 'package:saloon_app/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  runApp(MultiProvider(providers: [  
+  ChangeNotifierProvider.value(value: SpecialistsProvider()),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +27,7 @@ class MyApp extends StatelessWidget {
         title: 'Saloon App',
         debugShowCheckedModeBanner: false,
         theme: theme(),
-        initialRoute: HomeScreen.routeName,
+        initialRoute: ProfileScreen.routeName,
         routes: routes);
   }
 }

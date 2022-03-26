@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:saloon_app/constants.dart';
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -29,10 +30,10 @@ class ProfilePic extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
-                  side: const BorderSide(color: Colors.white)
+                  side: const BorderSide(color: kSecondaryColor)
                 ),
-                color: const Color(0xFFF5F6F9),
-                child: SvgPicture.asset('assets/icons/Camera Icon.svg'),
+                color: kPrimaryColor,
+                child: SvgPicture.asset('assets/icons/Camera Icon.svg', color: kSecondaryColor,),
                 onPressed: () async {
                   final FilePickerResult? image = await FilePicker.platform.pickFiles(allowMultiple: false);
 
