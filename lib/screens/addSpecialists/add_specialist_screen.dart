@@ -8,6 +8,8 @@ import 'package:saloon_app/size_config.dart';
 class AddSpecialistsScreen extends StatelessWidget {
   static String routeName = "/specialists/add";
 
+  const AddSpecialistsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +22,4 @@ class AddSpecialistsScreen extends StatelessWidget {
     );
   }
 
-  // AppBar buildAppBar(BuildContext context) {
-  //   return AppBar(
-  //     centerTitle: true,
-  //     title: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Text("Add Specialists"),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

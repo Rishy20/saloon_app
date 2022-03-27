@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
-import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
+import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 
 import '../constants.dart';
@@ -54,7 +54,7 @@ class BottomNavBar extends StatelessWidget {
                   size: iconSize,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, AddServicesScreen.routeName),
+                    Navigator.pushNamed(context, HomeScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
@@ -76,7 +76,7 @@ class BottomNavBar extends StatelessWidget {
                   size: iconSize,
                 ),
                 onPressed: () => Navigator.pushNamed(
-                    context, AddSpecialistsScreen.routeName),
+                    context, AllSpecialistScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
