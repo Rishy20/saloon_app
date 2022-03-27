@@ -5,7 +5,7 @@ import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/constants.dart';
-import 'package:saloon_app/models/User.dart';
+import 'package:saloon_app/models/user.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/size_config.dart';
 

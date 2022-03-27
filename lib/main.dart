@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/routes.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
-import 'package:saloon_app/screens/profile/profile_screen.dart';
-import 'package:saloon_app/size_config.dart';
 import 'package:saloon_app/theme.dart';
 
 void main() async {
@@ -27,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'Saloon App',
         debugShowCheckedModeBanner: false,
         theme: theme(),
-        initialRoute: ProfileScreen.routeName,
+        initialRoute: HomeScreen.routeName,
         routes: routes);
   }
 }

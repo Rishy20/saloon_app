@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
+  static const ID = "id";
   static const EMAIL = "email";
   static const PASSWORD = "password";
   static const FIRSTNAME = "firstName";
@@ -9,6 +10,7 @@ class User {
   static const ADDRESS = "address";
   static const AVATAR = "avatar";
 
+  late String _id;
   late String _email;
   late String _password;
   late String _firstName;
@@ -17,6 +19,29 @@ class User {
   late String _address;
   late String _avatar;
 
+  set firstName(String value) {
+    _firstName = value;
+  }
+  set lastName(String value) {
+    _lastName = value;
+  }
+  set email(String value) {
+    _email = value;
+  }
+  set password(String value) {
+    _password = value;
+  }
+  set address(String value) {
+    _address = value;
+  }
+  set phoneNumber(String value) {
+    _phoneNumber = value;
+  }
+  set avatar(String value) {
+    _avatar = value;
+  }
+
+  String get id => _id;
   String get email => _email;
   String get password => _password;
   String get lastName => _lastName;
@@ -25,8 +50,11 @@ class User {
   String get phoneNumber => _phoneNumber;
   String get avatar => _avatar;
 
+  User();
+
   User.fromSnapshot(DocumentSnapshot snapshot) {
     Map data = snapshot.data() as Map;
+    _id = snapshot.id;
     _email = data[EMAIL];
     _password = data[PASSWORD];
     _lastName = data[LASTNAME];

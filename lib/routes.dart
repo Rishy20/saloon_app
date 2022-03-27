@@ -1,7 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/addUsers/add_user_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
+import 'package:saloon_app/screens/allUsers/all_users_screen.dart';
 import 'package:saloon_app/screens/editSpecialist/edit_specialist_screen.dart';
+import 'package:saloon_app/screens/editUser/edit_user_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/screens/my_account/my_account_screen.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
@@ -18,5 +21,8 @@ final Map<String, WidgetBuilder> routes = {
   MyAccountScreen.routeName: (context) => const MyAccountScreen(),
   AddSpecialistsScreen.routeName: (context) => const AddSpecialistsScreen(),
   AllSpecialistScreen.routeName: (context) => const AllSpecialistScreen(),
-  EditSpecialistsScreen.routeName: (context) => const EditSpecialistsScreen()
+  EditSpecialistsScreen.routeName: (context) => const EditSpecialistsScreen(),
+  AllUsersScreen.routeName: (context) => const AllUsersScreen(),
+  AddUsersScreen.routeName: (context) => const AddUsersScreen(),
+  EditUsersScreen.routeName: (context) => const EditUsersScreen()
 };
