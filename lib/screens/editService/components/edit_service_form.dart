@@ -12,20 +12,29 @@ import 'package:saloon_app/services/service.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class AddServiceForm extends StatefulWidget {
+class EditServiceForm extends StatefulWidget {
   @override
-  _AddServiceFormState createState() => _AddServiceFormState();
+  _EditServiceFormState createState() => _EditServiceFormState();
+  Service service;
+  EditServiceForm({required this.service});
 }
 
-class _AddServiceFormState extends State<AddServiceForm> {
+class _EditServiceFormState extends State<EditServiceForm> {
   final List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
+  late Service service;
+
   File? imageFile;
-  bool imageError = false;
-  bool isSaving = false;
 
   TextEditingController name = new TextEditingController();
   TextEditingController price = new TextEditingController();
+
+  void initState() {
+    service = widget.service;
+
+    name.text = service.name;
+    price.text = service.price;
+  }
 
   void addError({String error = ''}) {
     if (!errors.contains(error))
@@ -43,89 +52,68 @@ class _AddServiceFormState extends State<AddServiceForm> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height - 200;
-    return isSaving
-        ? Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "Saving Service",
-                    style: TextStyle(fontSize: 16),
-                  ),
+    return Form(
+        key: _formKey,
+        child: Column(children: [
+          buildTextFormField(
+              label: "Service",
+              hint: "Enter service",
+              error: "Please enter a service",
+              controller: name,
+              type: "text"),
+          buildTextFormField(
+              label: "Price",
+              hint: "Enter service price",
+              error: "Please enter a price",
+              controller: price,
+              type: "text"),
+          imageFile == null && service.image != ""
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Container(
+                      child: Image.network(
+                    service.image,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  )))
+              : Container(),
+          imageFile != null
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Container(
+                      child: Image.file(
+                    imageFile!,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  )),
                 )
-              ],
-            ),
-          )
-        : Form(
-            key: _formKey,
-            child: Column(children: [
-              buildTextFormField(
-                  label: "Service",
-                  hint: "Enter service name",
-                  error: "Please enter a service name",
-                  controller: name,
-                  type: "text"),
-              buildTextFormField(
-                  label: "Price",
-                  hint: "Enter service price",
-                  error: "Please enter the price",
-                  controller: price,
-                  type: "text"),
-              imageFile != null
-                  ? Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: Container(
-                          child: Image.file(
-                        imageFile!,
-                        width: 150,
-                        fit: BoxFit.cover,
-                      )),
-                    )
-                  : Container(),
-              PrimaryButton(
-                  text: "Upload Image",
-                  press: () {
-                    _getFromGallery();
-                  }),
-              SizedBox(height: 5),
-              imageError
-                  ? FormError(error: "Please upload an image")
-                  : Container(),
-              SizedBox(
-                height: 20,
-              ),
-              SecondaryButton(
-                  text: "Submit",
-                  press: () async {
-                    if (imageFile == null) {
-                      setState(() {
-                        imageError = true;
-                      });
-                    }
-                    if (_formKey.currentState!.validate() && !imageError) {
-                      Service service = Service();
-                      service.name = name.text;
-                      service.price = price.text;
-                      setState(() {
-                        isSaving = true;
-                      });
-                      ServiceService serviceService = ServiceService();
-                      var imageUrl =
-                          await serviceService.uploadServiceImage(imageFile!);
-                      service.image = imageUrl;
-                      serviceService.addService(service);
-                      Navigator.pushNamed(context, AllServiceScreen.routeName);
-                    }
-                  })
-            ]));
+              : Container(),
+          PrimaryButton(
+              text: "Edit Service Image",
+              press: () {
+                _getFromGallery();
+              }),
+          SizedBox(
+            height: 20,
+          ),
+          SecondaryButton(
+              text: "Submit",
+              press: () async {
+                if (_formKey.currentState!.validate()) {
+                  service.name = name.text;
+                  service.price = price.text;
+
+                  ServiceService serviceService = ServiceService();
+                  if (imageFile != null) {
+                    var imageUrl =
+                        await serviceService.uploadServiceImage(imageFile!);
+                    service.image = imageUrl;
+                  }
+                  serviceService.updateService(service);
+                  Navigator.pushNamed(context, AllServiceScreen.routeName);
+                }
+              })
+        ]));
   }
 
   Column buildTextFormField(
@@ -209,7 +197,6 @@ class _AddServiceFormState extends State<AddServiceForm> {
     if (croppedImage != null) {
       setState(() {
         imageFile = croppedImage;
-        imageError = false;
       });
     }
   }

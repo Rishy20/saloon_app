@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:saloon_app/screens/AddServices/components/add_service_form.dart';
+import 'package:saloon_app/models/service.dart';
+import 'package:saloon_app/screens/editService/components/edit_service_form.dart';
 
 import '../../../constants.dart';
 
 class Body extends StatefulWidget {
   @override
   State<Body> createState() => _BodyState();
+  Service service;
+  Body({required this.service});
 }
 
 class _BodyState extends State<Body> {
@@ -18,7 +21,7 @@ class _BodyState extends State<Body> {
             child: Column(children: [
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [AddServiceForm()])
+                  children: [EditServiceForm(service: widget.service)])
             ])));
   }
 }

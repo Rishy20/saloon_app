@@ -8,6 +8,8 @@ import 'package:saloon_app/size_config.dart';
 class AddServicesScreen extends StatelessWidget {
   static String routeName = "/services/add";
 
+  const AddServicesScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,16 +21,4 @@ class AddServicesScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.services),
     );
   }
-
-// AppBar buildAppBar(BuildContext context) {
-//   return AppBar(
-//     centerTitle: true,
-//     title: Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Text("Add Specialists"),
-//       ],
-//     ),
-//   );
-// }
 }
