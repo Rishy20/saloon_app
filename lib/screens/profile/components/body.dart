@@ -13,7 +13,7 @@ class Body extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 20,),
-        const ProfilePic(),
+        ProfilePic(),
         const SizedBox(height: 20,),
         ProfileMenu(
           icon: 'assets/icons/User Icon.svg',

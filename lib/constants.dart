@@ -54,3 +54,6 @@ OutlineInputBorder outlineInputBorder() {
     borderSide: BorderSide(color: kTextColor),
   );
 }
+
+// Default avatar image
+const String defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/saloon-app-88797.appspot.com/o/uploads%2Fusers%2Favatar.jpg?alt=media&token=48f39178-4b59-4043-b819-146519c2f801";

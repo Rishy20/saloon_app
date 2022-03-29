@@ -5,6 +5,7 @@ import 'package:localstore/localstore.dart';
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
 
 import '../../../constants.dart';
@@ -93,9 +94,8 @@ class _MyAccountFormState extends State<MyAccountForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState?.save();
                 _firestore.collection('users').doc(user['id']).update(user).then((value) {
-                  db.collection('login').doc('loginData').set(user).then((value) => 
-                    Navigator.pushNamed(context, ProfileScreen.routeName)
-                  );
+                  LoginInfoProvider().setLoginInfo(user);
+                  Navigator.pushNamed(context, ProfileScreen.routeName);
                 });
               }
             },

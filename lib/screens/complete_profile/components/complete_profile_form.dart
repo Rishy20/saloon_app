@@ -5,6 +5,7 @@ import 'package:localstore/localstore.dart';
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/sign_up_success/sign_up_success_screen.dart';
 
 import '../../../constants.dart';
@@ -86,12 +87,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                   'firstName': firstName,
                   'lastName': lastName,
                   'phoneNumber': phoneNumber,
-                  'address': address
+                  'address': address,
+                  'avatar': defaultAvatar
                 };
 
                 _firestore.collection('users').add(user).then((value) {
                   user['id'] = value.id;
-                  Localstore.instance.collection('login').doc('loginData').set(user);
+                  LoginInfoProvider().setLoginInfo(user);
                   Navigator.pushNamed(context, SignUpSuccessScreen.routeName);
                 });
               }

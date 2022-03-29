@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localstore/localstore.dart';
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/models/user.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/size_config.dart';
 
@@ -96,9 +96,8 @@ class _SignInFormState extends State<SignInForm> {
                           'avatar': user.avatar
                         };
 
-                        // Get Localstore instance and save user data
-                        final db = Localstore.instance;
-                        db.collection('login').doc('loginData').set(userMap);
+                        // Set login info
+                        LoginInfoProvider().setLoginInfo(userMap);
 
                         // Navigate to home page
                         Navigator.pushNamed(context, HomeScreen.routeName);

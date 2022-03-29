@@ -88,7 +88,7 @@ class _EditUserFormState extends State<EditUserForm> {
               hint: "Enter users's password",
               error: "Please enter an password",
               controller: password,
-              type: TextInputType.visiblePassword),
+              type: "password"),
               buildTextFormField(
               label: "Phone Number",
               hint: "Enter users's phone number",
@@ -173,8 +173,8 @@ class _EditUserFormState extends State<EditUserForm> {
           height: getProportionateScreenWidth(5),
         ),
         TextFormField(
-            keyboardType:
-                type == "number" ? TextInputType.number : TextInputType.text,
+            obscureText: type == "password" ? true : false,
+            keyboardType: type == "password" ? TextInputType.text : type,
             controller: controller,
             style: TextStyle(color: Colors.white),
             onChanged: (value) {
