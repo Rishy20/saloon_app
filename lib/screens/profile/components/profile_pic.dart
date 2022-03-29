@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -12,20 +10,33 @@ import 'package:saloon_app/models/user.dart';
 import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/services/user.dart';
 
-class ProfilePic extends StatelessWidget {
+class ProfilePic extends StatefulWidget {
   ProfilePic({
     Key? key,
   }) : super(key: key);
 
+  @override
+  _ProfilePicState createState() => _ProfilePicState();
+}
+class _ProfilePicState extends State<ProfilePic> {
   final localstore = Localstore.instance;
   final userService = UserService();
+  String avatar = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    var loginInfo = localstore.collection('login').doc('loginData').get();
+    loginInfo.then((value) => avatar = value?['avatar']);
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: localstore.collection('login').doc('loginData').get(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        String avatar = snapshot.data != null ? snapshot.data["avatar"] : defaultAvatar;
+        avatar = snapshot.data != null ? snapshot.data["avatar"] : defaultAvatar;
         
         return SizedBox(
           height: 115,
@@ -97,6 +108,10 @@ class ProfilePic extends StatelessWidget {
     var loginInfo =  await Localstore.instance.collection('login').doc('loginData').get();
 
     var imageUrl = await userService.uploadUserImage(image);
+
+    setState(() {
+      avatar = imageUrl;
+    });
     
     if (loginInfo != null) {
       loginInfo['avatar'] = imageUrl;
