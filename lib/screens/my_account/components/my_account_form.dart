@@ -5,8 +5,10 @@ import 'package:localstore/localstore.dart';
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
+import 'package:saloon_app/models/user.dart';
 import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
+import 'package:saloon_app/services/user.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -23,12 +25,12 @@ class _MyAccountFormState extends State<MyAccountForm> {
     setDetails();
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final UserService _userService = UserService();
   final db = Localstore.instance;
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
   
-  Map<String, dynamic> user = {
+  Map<String, dynamic> userMap = {
     'id': '',
     'email': '',
     'password': '',
@@ -46,11 +48,11 @@ class _MyAccountFormState extends State<MyAccountForm> {
 
   void setDetails() {
     db.collection('login').doc('loginData').get().then((value) {
-      user = value!;
-      _firstNameController.text = user['firstName'];
-      _lastNameController.text = user['lastName'];
-      _phoneNumberController.text = user['phoneNumber'];
-      _addressController.text = user['address'];
+      userMap = value!;
+      _firstNameController.text = userMap['firstName'];
+      _lastNameController.text = userMap['lastName'];
+      _phoneNumberController.text = userMap['phoneNumber'];
+      _addressController.text = userMap['address'];
     });
   }
 
@@ -93,8 +95,19 @@ class _MyAccountFormState extends State<MyAccountForm> {
             press: () {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState?.save();
-                _firestore.collection('users').doc(user['id']).update(user).then((value) {
-                  LoginInfoProvider().setLoginInfo(user);
+
+                User user = User();
+                user.id = userMap['id'];
+                user.email = userMap['email'];
+                user.password = userMap['password'];
+                user.firstName = userMap['firstName'];
+                user.lastName = userMap['lastName'];
+                user.phoneNumber = userMap['phoneNumber'];
+                user.address = userMap['address'];
+                user.avatar = userMap['avatar'];
+
+                _userService.updateUser(user).then((value) {
+                  LoginInfoProvider().setLoginInfo(userMap);
                   Navigator.pushNamed(context, ProfileScreen.routeName);
                 });
               }
@@ -109,7 +122,7 @@ class _MyAccountFormState extends State<MyAccountForm> {
     return TextFormField(
           keyboardType: TextInputType.streetAddress,
           controller: _addressController,
-          onSaved: (newValue) => user['address'] = newValue ?? '',
+          onSaved: (newValue) => userMap['address'] = newValue ?? '',
           onChanged: (value) {
             if (value.isNotEmpty) {
               removeError(error: kAddressNullError);
@@ -136,7 +149,7 @@ class _MyAccountFormState extends State<MyAccountForm> {
     return TextFormField(
           keyboardType: TextInputType.phone,
           controller: _phoneNumberController,
-          onSaved: (newValue) => user['phoneNumber'] = newValue ?? '',
+          onSaved: (newValue) => userMap['phoneNumber'] = newValue ?? '',
           onChanged: (value) {
             if (value.isNotEmpty) {
               removeError(error: kPhoneNumberNullError);
@@ -163,7 +176,7 @@ class _MyAccountFormState extends State<MyAccountForm> {
     return TextFormField(
           keyboardType: TextInputType.name,
           controller: _lastNameController,
-          onSaved: (newValue) => user['lastName'] = newValue ?? '',
+          onSaved: (newValue) => userMap['lastName'] = newValue ?? '',
           onChanged: (value) {
             if (value.isNotEmpty) {
               removeError(error: kNameNullError);
@@ -190,7 +203,7 @@ class _MyAccountFormState extends State<MyAccountForm> {
     return TextFormField(
           keyboardType: TextInputType.name,
           controller: _firstNameController,
-          onSaved: (newValue) => user['firstName'] = newValue ?? '',
+          onSaved: (newValue) => userMap['firstName'] = newValue ?? '',
           onChanged: (value) {
             if (value.isNotEmpty) {
               removeError(error: kNameNullError);

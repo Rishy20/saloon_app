@@ -19,6 +19,9 @@ class User {
   late String _address;
   late String _avatar;
 
+  set id(String value) {
+    _id = value;
+  }
   set firstName(String value) {
     _firstName = value;
   }

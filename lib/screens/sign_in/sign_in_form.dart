@@ -89,6 +89,7 @@ class _SignInFormState extends State<SignInForm> {
                         Map<String, dynamic> userMap = {
                           'id': userId,
                           'email': user.email,
+                          'password': user.password,
                           'firstName': user.firstName,
                           'lastName': user.lastName,
                           'phoneNumber': user.phoneNumber,

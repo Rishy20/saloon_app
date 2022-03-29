@@ -32,12 +32,14 @@ final RegExp emailValidatorRegExp =
 const String kEmailNullError = "Please enter your email";
 const String kInvalidEmailError = "Please enter a valid email";
 const String kPassNullError = "Please enter your password";
+const String kNewPassNullError = "Please enter a new password";
 const String kShortPassError = "Password is too weak";
 const String kMatchPassError = "Passwords don't match";
 const String kNameNullError = "Please enter your name";
 const String kPhoneNumberNullError = "Please enter your phone number";
 const String kAddressNullError = "Please enter your address";
 const String kEmailOrPasswordError = "Email or password is incorrect";
+const String kPasswordIncorrectError = "Password is incorrect";
 const String kSomethingWrongError = "Something went wrong, please try again...";
 
 final otpInputDecoration = InputDecoration(

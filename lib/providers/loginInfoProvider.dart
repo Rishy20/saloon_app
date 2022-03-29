@@ -7,12 +7,12 @@ class LoginInfoProvider with ChangeNotifier {
   var _loginInfo;
   final _db = Localstore.instance;
 
-  UsersProvider() {
+  LoginInfoProvider() {
     _getLoginInfo();
   }
 
 //  getter
-  User get loginInfo => _loginInfo;
+  get loginInfo => _loginInfo;
 
 //  methods
   void _getLoginInfo() async {
