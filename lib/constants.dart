@@ -3,6 +3,7 @@ import 'package:saloon_app/size_config.dart';
 
 const kPrimaryColor = Color(0xFF111111);
 const kPrimaryContrastColor = Color(0xFF1b1b1b);
+const kPrimaryLightColor = Color(0xFF1f1f1f);
 const kPrimaryDarkColor = Color(0xFF172F4B);
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
