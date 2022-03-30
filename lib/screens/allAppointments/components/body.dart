@@ -5,6 +5,7 @@ import 'package:saloon_app/components/item_card.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/models/appointment.dart';
 import 'package:saloon_app/models/specialist.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/editAppointments/edit_appointment_screen.dart';
@@ -40,7 +41,17 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     SpecialistsProvider specialistsProvider =
         Provider.of<SpecialistsProvider>(context);
-    return FutureBuilder(
+  LoginInfoProvider loginInfoProvider = Provider.of<LoginInfoProvider>(context);
+  var loginInfo = loginInfoProvider.loginInfo;
+    return  loginInfo == null?  Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [Text("Please login to View your Appointments")],
+              ),
+            ): FutureBuilder(
         future: getAllAppointments(),
         builder: (BuildContext ctx, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {

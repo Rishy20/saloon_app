@@ -5,7 +5,7 @@ import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/adminHome/components/body.dart';
 
 class AdminHomeScreen extends StatelessWidget {
-  static String routeName = "/home";
+  static String routeName = "/home/admin";
 
   const AdminHomeScreen({Key? key}) : super(key: key);
 

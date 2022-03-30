@@ -42,21 +42,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.9"
+    version: "3.1.10"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.0"
+    version: "5.5.1"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.9"
+    version: "2.6.10"
   collection:
     dependency: transitive
     description:
@@ -106,6 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.5.1"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -174,6 +181,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_image_slideshow:
+    dependency: "direct main"
+    description:
+      name: flutter_image_slideshow
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -275,6 +289,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  localstore:
+    dependency: "direct main"
+    description:
+      name: localstore
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.3"
   matcher:
     dependency: transitive
     description:
@@ -482,7 +503,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.5.0"
   xdg_directories:
     dependency: transitive
     description:

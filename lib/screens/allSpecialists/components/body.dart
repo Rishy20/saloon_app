@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:saloon_app/components/item_card.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/models/specialist.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/editSpecialist/edit_specialist_screen.dart';
@@ -36,10 +37,13 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+        LoginInfoProvider loginInfoProvider =
+        Provider.of<LoginInfoProvider>(context);
+    var loginInfo = loginInfoProvider.loginInfo;
 
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    final double itemWidth = loginInfo != null && loginInfo['type'] == "admin" ? size.width / 2: size.width / 1.6;
     var specialistsProvider = Provider.of<SpecialistsProvider>(context);
 
     return FutureBuilder(

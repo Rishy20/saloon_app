@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 
 import '../constants.dart';
 
@@ -9,6 +11,9 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginInfoProvider loginInfoProvider =
+        Provider.of<LoginInfoProvider>(context);
+    var loginInfo = loginInfoProvider.loginInfo;
     return Container(
       padding: EdgeInsets.all(16),
       height: 150,
@@ -30,14 +35,15 @@ class TopBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               Text(
-                "Hi, Rishard",
+                loginInfo!= null?"Hi, ${loginInfo['firstName']}":"Hi, User",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
               SizedBox(
                 height: 5,
               ),
-              Row(
+              loginInfo!= null?Row(
                 children: [
                   Icon(
                     Icons.location_on,
@@ -48,11 +54,11 @@ class TopBar extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "Malabe",
+                    "${loginInfo['address']}",
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                   )
                 ],
-              )
+              ):Container()
             ],
           ),
         ),
@@ -67,9 +73,7 @@ class TopBar extends StatelessWidget {
               padding: const EdgeInsets.all(3.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
-                child: Image.network(
-                  "https://firebasestorage.googleapis.com/v0/b/saloon-app-88797.appspot.com/o/uploads%2Fspecialists%2Fimage_cropper_1648189678630.jpg?alt=media&token=84903e41-2a76-4ba4-8d0f-3c06d9f242bd",
-                ),
+                child: Image.network(loginInfo!=null?loginInfo['avatar']:defaultAvatar),
               ),
             ),
           ),

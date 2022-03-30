@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saloon_app/components/bottom_nav_bar.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/enums.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/addAppointments/add_appointment_screen.dart';
 import 'package:saloon_app/screens/allAppointments/components/body.dart';
 
@@ -12,12 +14,14 @@ class AllAppointmentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginInfoProvider loginInfoProvider = Provider.of<LoginInfoProvider>(context);
+  var loginInfo = loginInfoProvider.loginInfo;
     return Scaffold(
       appBar: AppBar(
         title: const Text("All Appointments"),
         centerTitle: true,
         actions: [
-          Padding(
+          loginInfo != null? Padding(
               padding: const EdgeInsets.all(14.0),
               child: IconButton(
                   onPressed: () => {
@@ -25,7 +29,7 @@ class AllAppointmentsScreen extends StatelessWidget {
                             context, AddAppointmentScreen.routeName)
                       },
                   icon: Icon(Icons.add_circle,
-                      color: kSecondaryColor, size: 30))),
+                      color: kSecondaryColor, size: 30))):Container()
         ],
       ),
       body: Body(),
