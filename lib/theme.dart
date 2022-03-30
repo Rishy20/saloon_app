@@ -4,6 +4,7 @@ import 'constants.dart';
 
 ThemeData theme() {
   return ThemeData(
+    brightness: Brightness.dark,
     scaffoldBackgroundColor: kPrimaryColor,
     cardColor: Color(0XFF1b1b1b),
     fontFamily: "Muli",
@@ -34,6 +35,7 @@ InputDecorationTheme inputDecorationTheme() {
     fillColor: kPrimaryContrastColor,
     filled: true,
     hintStyle: TextStyle(color: kPlaceholderColor, fontSize: 18),
+    labelStyle: TextStyle(color: kTextColor),
     enabledBorder: outlineInputBorder,
     focusedBorder: focusedInputBorder,
     border: outlineInputBorder,
