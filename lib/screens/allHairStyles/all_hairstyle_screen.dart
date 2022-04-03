@@ -29,7 +29,7 @@ class AllHairStylesScreen extends StatelessWidget {
         ],
       ),
       body: Body(),
-      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.services),
+      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.styles),
     );
   }
 }

@@ -49,8 +49,19 @@ class BottomNavBar extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.cut,
+                  Icons.cleaning_services,
                   color: MenuState.services == selectedMenu
+                      ? kSecondaryColor
+                      : inActiveIconColor,
+                  size: iconSize,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AllHairStylesScreen.routeName),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.cut,
+                  color: MenuState.styles == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
                   size: iconSize,

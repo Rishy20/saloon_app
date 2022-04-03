@@ -1,1 +1,1 @@
-enum MenuState { home, services, appointments, specialists, profile }
+enum MenuState { home, services, styles, appointments, specialists, profile }
