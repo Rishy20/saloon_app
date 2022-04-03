@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                     ServiceService serviceService = ServiceService();
                     return ItemCard(
                         image: snapshot.data[index].image,
-                        title: snapshot.data[index].firstName,
+                        title: snapshot.data[index].name,
                         edit: () => {
                               Navigator.pushNamed(
                                   context, EditServicesScreen.routeName,

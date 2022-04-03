@@ -28,12 +28,14 @@ class _EditServiceFormState extends State<EditServiceForm> {
 
   TextEditingController name = new TextEditingController();
   TextEditingController price = new TextEditingController();
+  TextEditingController description = new TextEditingController();
 
   void initState() {
     service = widget.service;
 
     name.text = service.name;
     price.text = service.price;
+    description.text = service.description;
   }
 
   void addError({String error = ''}) {
@@ -66,6 +68,12 @@ class _EditServiceFormState extends State<EditServiceForm> {
               hint: "Enter service price",
               error: "Please enter a price",
               controller: price,
+              type: "text"),
+          buildMultiLineFormField(
+              label: "Description",
+              hint: "Enter service description",
+              error: "Please enter the description",
+              controller: description,
               type: "text"),
           imageFile == null && service.image != ""
               ? Padding(
@@ -102,6 +110,7 @@ class _EditServiceFormState extends State<EditServiceForm> {
                 if (_formKey.currentState!.validate()) {
                   service.name = name.text;
                   service.price = price.text;
+                  service.description = description.text;
 
                   ServiceService serviceService = ServiceService();
                   if (imageFile != null) {
@@ -161,7 +170,52 @@ class _EditServiceFormState extends State<EditServiceForm> {
       ],
     );
   }
-
+Column buildMultiLineFormField(
+      {label: String,
+      hint: String,
+      error: String,
+      controller: TextEditingController,
+      type: String}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: getProportionateScreenWidth(16),
+              color: Colors.white),
+        ),
+        SizedBox(
+          height: getProportionateScreenWidth(5),
+        ),
+        TextFormField(
+            keyboardType: TextInputType.multiline,
+            minLines: 4,
+            maxLines: null,
+            controller: controller,
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: error);
+              }
+              return null;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: error);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: hint,
+            )),
+        FormError(error: errors.contains(error) ? error : ''),
+        SizedBox(height: getProportionateScreenHeight(20)),
+      ],
+    );
+  }
   /// Get from gallery
   _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(

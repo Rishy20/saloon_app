@@ -26,6 +26,8 @@ class _AddServiceFormState extends State<AddServiceForm> {
 
   TextEditingController name = new TextEditingController();
   TextEditingController price = new TextEditingController();
+  TextEditingController description = new TextEditingController();
+
 
   void addError({String error = ''}) {
     if (!errors.contains(error))
@@ -79,6 +81,12 @@ class _AddServiceFormState extends State<AddServiceForm> {
                   error: "Please enter the price",
                   controller: price,
                   type: "text"),
+              buildMultiLineFormField(
+                  label: "Description",
+                  hint: "Enter service description",
+                  error: "Please enter the description",
+                  controller: description,
+                  type: "text"),
               imageFile != null
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
@@ -114,6 +122,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       Service service = Service();
                       service.name = name.text;
                       service.price = price.text;
+                      service.description = description.text;
                       setState(() {
                         isSaving = true;
                       });
@@ -150,6 +159,53 @@ class _AddServiceFormState extends State<AddServiceForm> {
         TextFormField(
             keyboardType:
                 type == "number" ? TextInputType.number : TextInputType.text,
+            controller: controller,
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: error);
+              }
+              return null;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: error);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: hint,
+            )),
+        FormError(error: errors.contains(error) ? error : ''),
+        SizedBox(height: getProportionateScreenHeight(20)),
+      ],
+    );
+  }
+
+  Column buildMultiLineFormField(
+      {label: String,
+      hint: String,
+      error: String,
+      controller: TextEditingController,
+      type: String}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: getProportionateScreenWidth(16),
+              color: Colors.white),
+        ),
+        SizedBox(
+          height: getProportionateScreenWidth(5),
+        ),
+        TextFormField(
+            keyboardType: TextInputType.multiline,
+            minLines: 4,
+            maxLines: null,
             controller: controller,
             style: TextStyle(color: Colors.white),
             onChanged: (value) {
