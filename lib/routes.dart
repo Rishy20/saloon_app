@@ -11,6 +11,9 @@ import 'package:saloon_app/screens/change_password/change_password_screen.dart';
 import 'package:saloon_app/screens/editSpecialist/edit_specialist_screen.dart';
 import 'package:saloon_app/screens/editUser/edit_user_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
+import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
+import 'package:saloon_app/screens/allServices/all_services_screen.dart';
+import 'package:saloon_app/screens/editService/edit_service_screen.dart';
 import 'package:saloon_app/screens/my_account/my_account_screen.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
 import 'package:saloon_app/screens/sign_in/sign_in_screen.dart';
@@ -32,6 +35,9 @@ final Map<String, WidgetBuilder> routes = {
   AllAppointmentsScreen.routeName: (context) => const AllAppointmentsScreen(),
   EditAppointmentScreen.routeName: (context) => const EditAppointmentScreen(),
   AdminHomeScreen.routeName: (context) => const AdminHomeScreen(),
+  AddServicesScreen.routeName: (context) => const AddServicesScreen(),
+  AllServiceScreen.routeName: (context) => const AllServiceScreen(),
+  EditServicesScreen.routeName: (context) => const EditServicesScreen(),
   AllUsersScreen.routeName: (context) => const AllUsersScreen(),
   AddUsersScreen.routeName: (context) => const AddUsersScreen(),
   EditUsersScreen.routeName: (context) => const EditUsersScreen()

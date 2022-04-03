@@ -6,6 +6,7 @@ import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/routes.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/theme.dart';
+import 'package:saloon_app/providers/serviceProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider.value(value: SpecialistsProvider()),
     ChangeNotifierProvider.value(value: LoginInfoProvider()),
+    ChangeNotifierProvider.value(value: ServicesProvider()),
   ], child: MyApp()));
 }
 
