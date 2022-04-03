@@ -6,6 +6,7 @@ import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/components/primary_button.dart';
 import 'package:saloon_app/components/secondary_button.dart';
 import 'package:saloon_app/models/hairStyles.dart';
+import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/services/hairStyles.dart';
 
 import '../../../constants.dart';
@@ -130,8 +131,8 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
                           .uploadHairStylesImage(imageFile!);
                       hairStyles.image = imageUrl;
                       hairStylesService.addHairStyle(hairStyles);
-                      // Navigator.pushNamed(
-                      // context, AllSpecialistScreen.routeName);
+                      Navigator.pushNamed(
+                      context, AllHairStylesScreen.routeName);
                     }
                   })
             ]));

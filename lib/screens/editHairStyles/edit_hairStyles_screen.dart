@@ -3,7 +3,7 @@ import 'package:saloon_app/components/bottom_nav_bar.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/models/hairStyles.dart';
-import 'package:saloon_app/screens/editHairStyles/componenets/boady.dart';
+import 'package:saloon_app/screens/editHairStyles/componenets/body.dart';
 import 'package:saloon_app/size_config.dart';
 
 class EditHairStylesScreen extends StatelessWidget {

@@ -3,8 +3,7 @@ import 'package:saloon_app/components/bottom_nav_bar.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
-import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
-import 'package:saloon_app/screens/allSpecialists/components/body.dart';
+import 'package:saloon_app/screens/allHairStyles/components/body.dart';
 
 class AllHairStylesScreen extends StatelessWidget {
   static String routeName = "/hairstyles";

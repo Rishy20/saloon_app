@@ -71,7 +71,7 @@ class _BodyState extends State<Body> {
                     HairStylesService haristylesService = HairStylesService();
                     return ItemCard(
                         image: snapshot.data[index].image,
-                        title: snapshot.data[index].firstName,
+                        title: snapshot.data[index].style,
                         edit: () => {
                               Navigator.pushNamed(
                                   context, EditHairStylesScreen.routeName,

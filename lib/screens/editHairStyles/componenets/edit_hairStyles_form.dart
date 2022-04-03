@@ -6,6 +6,7 @@ import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/components/primary_button.dart';
 import 'package:saloon_app/components/secondary_button.dart';
 import 'package:saloon_app/models/hairStyles.dart';
+import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/services/hairStyles.dart';
 
 import '../../../constants.dart';
@@ -27,7 +28,6 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
 
   TextEditingController styles = new TextEditingController();
   TextEditingController description = new TextEditingController();
-  TextEditingController image = new TextEditingController();
   TextEditingController price = new TextEditingController();
 
   void initState() {
@@ -35,7 +35,6 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
 
     styles.text = hairstyles.style;
     description.text = hairstyles.description;
-    image.text = hairstyles.image;
     price.text = hairstyles.price;
   }
 
@@ -109,10 +108,9 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
               text: "Submit",
               press: () async {
                 if (_formKey.currentState!.validate()) {
-                  styles.text = hairstyles.style;
-                  description.text = hairstyles.description;
-                  image.text = hairstyles.image;
-                  price.text = hairstyles.price;
+                  hairstyles.style = styles.text ;
+                  hairstyles.description = description.text;
+                  hairstyles.price = price.text;
 
                   HairStylesService hairstylesService = HairStylesService();
                   if (imageFile != null) {
@@ -121,7 +119,7 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
                     hairstyles.image = imageUrl;
                   }
                   hairstylesService.updateHairStyle(hairstyles);
-                  // Navigator.pushNamed(context, AllhairstylesScreen.routeName);
+                  Navigator.pushNamed(context, AllHairStylesScreen.routeName);
                 }
               })
         ]));

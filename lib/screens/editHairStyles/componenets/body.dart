@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:saloon_app/models/hairStyles.dart';
 import 'package:saloon_app/models/specialist.dart';
 import 'package:saloon_app/screens/editHairStyles/componenets/edit_hairStyles_form.dart';
-import 'package:saloon_app/screens/editSpecialist/components/edit_specialist_form.dart';
+
 
 import '../../../constants.dart';
 
