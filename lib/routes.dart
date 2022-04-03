@@ -1,5 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
+import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
+import 'package:saloon_app/screens/editHairStyles/edit_hairStyles_screen.dart';
 import 'package:saloon_app/screens/addUsers/add_user_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/allUsers/all_users_screen.dart';
@@ -27,6 +32,9 @@ final Map<String, WidgetBuilder> routes = {
   AddSpecialistsScreen.routeName: (context) => const AddSpecialistsScreen(),
   AllSpecialistScreen.routeName: (context) => const AllSpecialistScreen(),
   EditSpecialistsScreen.routeName: (context) => const EditSpecialistsScreen(),
+  AddHairStylesScreen.routeName: (context) => const AddHairStylesScreen(),
+  AllHairStylesScreen.routeName: (context) => const AllHairStylesScreen(),
+  EditHairStylesScreen.routeName: (context) => const EditHairStylesScreen(),
   AddServicesScreen.routeName: (context) => const AddServicesScreen(),
   AllServiceScreen.routeName: (context) => const AllServiceScreen(),
   EditServicesScreen.routeName: (context) => const EditServicesScreen(),

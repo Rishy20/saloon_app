@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
 import 'package:saloon_app/enums.dart';
+import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/screens/allServices/all_services_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
@@ -53,14 +55,25 @@ class BottomNavBar extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.cut,
+                  Icons.cleaning_services,
                   color: MenuState.services == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
                   size: iconSize,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, AllServiceScreen.routeName),
+                    Navigator.pushNamed(context, AllSpecialistScreen.routeName),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.cut,
+                  color: MenuState.styles == selectedMenu
+                      ? kSecondaryColor
+                      : inActiveIconColor,
+                  size: iconSize,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AllHairStylesScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
