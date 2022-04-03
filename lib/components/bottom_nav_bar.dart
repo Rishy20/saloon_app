@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
 import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/allServices/all_services_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
+import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
 import 'package:saloon_app/screens/allUsers/all_users_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
@@ -58,7 +60,7 @@ class BottomNavBar extends StatelessWidget {
                   size: iconSize,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, HomeScreen.routeName),
+                    Navigator.pushNamed(context, AllServiceScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
@@ -79,8 +81,8 @@ class BottomNavBar extends StatelessWidget {
                       : inActiveIconColor,
                   size: iconSize,
                 ),
-                onPressed: () => Navigator.pushNamed(
-                    context, AllSpecialistScreen.routeName),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AllSpecialistScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
