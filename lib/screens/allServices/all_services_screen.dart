@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saloon_app/components/bottom_nav_bar.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/enums.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
 import 'package:saloon_app/screens/allServices/components/body.dart';
 
@@ -12,12 +14,14 @@ class AllServiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+       LoginInfoProvider loginInfoProvider = Provider.of<LoginInfoProvider>(context);
+  var loginInfo = loginInfoProvider.loginInfo;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All Services"),
+        title: const Text("Services"),
         centerTitle: true,
         actions: [
-          Padding(
+           loginInfo != null && loginInfo['type'] == "admin"? Padding(
               padding: const EdgeInsets.all(14.0),
               child: IconButton(
                   onPressed: () => {
@@ -25,7 +29,7 @@ class AllServiceScreen extends StatelessWidget {
                             context, AddServicesScreen.routeName)
                       },
                   icon: Icon(Icons.add_circle,
-                      color: kSecondaryColor, size: 30))),
+                      color: kSecondaryColor, size: 30))):Container()
         ],
       ),
       body: Body(),

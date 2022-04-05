@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
+import 'package:provider/provider.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/change_password/change_password_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/screens/my_account/my_account_screen.dart';
@@ -34,8 +36,10 @@ class Body extends StatelessWidget {
           icon: 'assets/icons/Log out.svg',
           text: 'Log Out',
           press: () {
-            Localstore.instance.collection('login').doc('loginData').delete().then((value) => 
-              Navigator.pushNamed(context, HomeScreen.routeName)
+            Localstore.instance.collection('login').doc('loginData').delete().then((value) {
+              Provider.of<LoginInfoProvider>(context,listen: false).logout();
+              Navigator.pushNamed(context, HomeScreen.routeName);
+            }
             );
           }
         ),

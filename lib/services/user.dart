@@ -60,4 +60,8 @@ class UserService {
       print('error occured');
     }
   }
+  Future<int> getUserCount() =>
+      users.get().then((QuerySnapshot snap) {
+        return snap.docs.length;
+      });
 }

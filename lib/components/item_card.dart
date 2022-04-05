@@ -23,6 +23,7 @@ class ItemCard extends StatelessWidget {
     LoginInfoProvider loginInfoProvider =
         Provider.of<LoginInfoProvider>(context);
     var loginInfo = loginInfoProvider.loginInfo;
+    print(loginInfo);
     return Card(
       margin: EdgeInsets.all(8.0),
       elevation: 3,

@@ -10,10 +10,12 @@ import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/components/primary_button.dart';
 import 'package:saloon_app/components/secondary_button.dart';
 import 'package:saloon_app/models/appointment.dart';
+import 'package:saloon_app/models/service.dart';
 import 'package:saloon_app/models/specialist.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/screens/allAppointments/all_appointment_screen.dart';
 import 'package:saloon_app/services/appointment.dart';
+import 'package:saloon_app/services/service.dart';
 
 import '../../../components/danger_button.dart';
 import '../../../constants.dart';
@@ -43,6 +45,25 @@ class _EditAppointmentFormState extends State<EditAppointmentForm> {
   int selectedSlot = -1;
   late SpecialistsProvider specialistsProvider;
   AppointmentService appointmentService = AppointmentService();
+
+  ServiceService serviceService = ServiceService();
+  List<Service> services = [];
+  List<Choice> options = [];
+  List<MultiSelectItem<Choice>> items = [];
+
+  Future<List<Service>> getAllServices() async {
+    services = await serviceService.getAllServices();
+    int index = 0;
+    options = [];
+    for (var service in services) {
+      options.add(Choice(id: index, title: service.name));
+      index++;
+    }
+    items = options
+        .map((option) => MultiSelectItem<Choice>(option, option.title))
+        .toList();
+    return services;
+  }
 
   void initState() {
     appointment = widget.appointment;
@@ -84,10 +105,6 @@ class _EditAppointmentFormState extends State<EditAppointmentForm> {
     "slot": "Please select a slot"
   };
 
-  static List<Choice> options = [
-    Choice(id: 1, title: "abc"),
-    Choice(id: 2, title: "def"),
-  ];
   List<String> slots = [
     "8:30 - 9:30 AM",
     "9:30 - 10:30 AM",
@@ -99,115 +116,133 @@ class _EditAppointmentFormState extends State<EditAppointmentForm> {
     "04:30 - 05:30 PM",
   ];
 
-  final items = options
-      .map((option) => MultiSelectItem<Choice>(option, option.title))
-      .toList();
   List<Choice> selectedChoices = [];
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height - 200;
-    void getSpecialist() {}
-    return isSaving
-        ? Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            height: height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "Saving Appointment",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
-              ],
-            ),
-          )
-        : Form(
-            key: _formKey,
-            child: Column(children: [
-              buildDatePicker(label: "Date"),
-              isSubmit && selectedDate == null
-                  ? Column(
-                      children: [
-                        FormError(error: "Please select a date"),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    )
-                  : Container(),
-              buildSpecialistSelector(specialistsProvider),
-              isSubmit && selectedSpecialist == -1
-                  ? Column(
-                      children: [
-                        FormError(error: "Please select a specialist"),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    )
-                  : Container(),
-              buildServiceSelector(context),
-              isSubmit && selectedChoices.isEmpty
-                  ? Column(
-                      children: [
-                        FormError(error: "Please select a service"),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    )
-                  : Container(),
-              buildSlotSelector(),
-              isSubmit && selectedSlot == -1
-                  ? Column(
-                      children: [
-                        FormError(error: "Please select a slot"),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    )
-                  : Container(),
-              SecondaryButton(
-                  text: "Update Appointment",
-                  press: () async {
-                    if (selectedSpecialist != -1 ||
-                        selectedSlot != -1 ||
-                        selectedChoices.isNotEmpty) {
-                      appointment.specialist = specialistsProvider
-                          .allSpecialists[selectedSpecialist].id;
-                      appointment.date =
-                          "${selectedDate.toLocal()}".split(' ')[0];
-                      appointment.service = "Hair Cut";
-                      appointment.slot = slots[selectedSlot];
-
-                      setState(() {
-                        isSaving = true;
-                      });
-
-                      appointmentService.updateAppointment(appointment);
-                      Navigator.pushNamed(
-                          context, AllAppointmentsScreen.routeName);
-                    } else {
-                      setState(() {
-                        isSubmit = true;
-                      });
-                    }
-                  }),
-              SizedBox(
-                height: 10,
+    return FutureBuilder(
+        future: getAllServices(),
+        builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [CircularProgressIndicator()],
               ),
-              DangerButton(
-                  text: "Delete Appointment",
-                  press: () => {showAlertDialog(context, appointment.id)})
-            ]));
+            );
+          } else {
+            return isSaving
+                ? Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    height: height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            "Saving Appointment",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Form(
+                    key: _formKey,
+                    child: Column(children: [
+                      buildDatePicker(label: "Date"),
+                      isSubmit && selectedDate == null
+                          ? Column(
+                              children: [
+                                FormError(error: "Please select a date"),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            )
+                          : Container(),
+                      buildSpecialistSelector(specialistsProvider),
+                      isSubmit && selectedSpecialist == -1
+                          ? Column(
+                              children: [
+                                FormError(error: "Please select a specialist"),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            )
+                          : Container(),
+                      buildServiceSelector(context),
+                      isSubmit && selectedChoices.isEmpty
+                          ? Column(
+                              children: [
+                                FormError(error: "Please select a service"),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            )
+                          : Container(),
+                      buildSlotSelector(),
+                      isSubmit && selectedSlot == -1
+                          ? Column(
+                              children: [
+                                FormError(error: "Please select a slot"),
+                                SizedBox(
+                                  height: 10,
+                                )
+                              ],
+                            )
+                          : Container(),
+                      SecondaryButton(
+                          text: "Update Appointment",
+                          press: () async {
+                            if (selectedSpecialist != -1 ||
+                                selectedSlot != -1 ||
+                                selectedChoices.isNotEmpty) {
+                              appointment.specialist = specialistsProvider
+                                  .allSpecialists[selectedSpecialist].id;
+                              appointment.date =
+                                  "${selectedDate.toLocal()}".split(' ')[0];
+                              List<String> services = [];
+                              for (var choice in selectedChoices) {
+                                services.add(choice.title);
+                              }
+
+                              appointment.service = services;
+                              appointment.slot = slots[selectedSlot];
+
+                              setState(() {
+                                isSaving = true;
+                              });
+
+                              appointmentService.updateAppointment(appointment);
+                              Navigator.pushNamed(
+                                  context, AllAppointmentsScreen.routeName);
+                            } else {
+                              setState(() {
+                                isSubmit = true;
+                              });
+                            }
+                          }),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      DangerButton(
+                          text: "Delete Appointment",
+                          press: () =>
+                              {showAlertDialog(context, appointment.id)})
+                    ]));
+          }
+        });
   }
 
   showAlertDialog(BuildContext context, id) {

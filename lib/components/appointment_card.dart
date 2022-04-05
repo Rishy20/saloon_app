@@ -93,7 +93,7 @@ class AppointmentCard extends StatelessWidget {
                       fontSize: getProportionateScreenWidth(16)),
                 ),
                 Text(
-                  ap.service,
+                  ap.service.join(', '),
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: Colors.white,

@@ -58,4 +58,8 @@ class SpecialistService {
       print('error occured');
     }
   }
+  Future<int> getSpecialistCount() =>
+      specialists.get().then((QuerySnapshot snap) {
+        return snap.docs.length;
+      });
 }

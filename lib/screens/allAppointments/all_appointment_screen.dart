@@ -14,22 +14,25 @@ class AllAppointmentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginInfoProvider loginInfoProvider = Provider.of<LoginInfoProvider>(context);
-  var loginInfo = loginInfoProvider.loginInfo;
+    LoginInfoProvider loginInfoProvider =
+        Provider.of<LoginInfoProvider>(context);
+    var loginInfo = loginInfoProvider.loginInfo;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All Appointments"),
+        title: const Text("Appointments"),
         centerTitle: true,
         actions: [
-          loginInfo != null? Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: IconButton(
-                  onPressed: () => {
-                        Navigator.pushNamed(
-                            context, AddAppointmentScreen.routeName)
-                      },
-                  icon: Icon(Icons.add_circle,
-                      color: kSecondaryColor, size: 30))):Container()
+          loginInfo != null
+              ? Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: IconButton(
+                      onPressed: () => {
+                            Navigator.pushNamed(
+                                context, AddAppointmentScreen.routeName)
+                          },
+                      icon: Icon(Icons.add_circle,
+                          color: kSecondaryColor, size: 30)))
+              : Container()
         ],
       ),
       body: Body(),

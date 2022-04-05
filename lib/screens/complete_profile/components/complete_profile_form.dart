@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localstore/localstore.dart';
+import 'package:provider/provider.dart';
 
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
@@ -97,7 +98,9 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
                 _firestore.collection('users').add(user).then((value) {
                   user['id'] = value.id;
-                  LoginInfoProvider().setLoginInfo(user);
+                  Provider.of<LoginInfoProvider>(context, listen: false)
+                      .setLoginInfo(user);
+
                   Navigator.pushNamed(context, SignUpSuccessScreen.routeName);
                 });
               }

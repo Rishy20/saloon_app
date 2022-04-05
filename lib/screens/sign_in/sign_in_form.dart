@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saloon_app/components/custom_suffix_icon.dart';
 import 'package:saloon_app/components/default_button.dart';
 import 'package:saloon_app/components/form_error.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/models/user.dart';
 import 'package:saloon_app/providers/loginInfoProvider.dart';
+import 'package:saloon_app/screens/adminHome/admin_home_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/size_config.dart';
 
@@ -99,10 +101,18 @@ class _SignInFormState extends State<SignInForm> {
                         };
 
                         // Set login info
-                        LoginInfoProvider().setLoginInfo(userMap);
+                        Provider.of<LoginInfoProvider>(context,listen: false).setLoginInfo(userMap);
 
-                        // Navigate to home page
-                        Navigator.pushNamed(context, HomeScreen.routeName);
+                        StatelessWidget replacement;
+
+                    if (user.type =="admin") {
+                      replacement = AdminHomeScreen();
+                    } else {
+                      replacement = HomeScreen();
+                    }
+
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => replacement));
                       } else {
                         addError(error: kEmailOrPasswordError);
                       }

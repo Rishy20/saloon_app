@@ -4,6 +4,9 @@ import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/addAppointments/add_appointment_screen.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
 import 'package:saloon_app/screens/adminHome/admin_home_screen.dart';
+import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
+import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/screens/allServices/all_services_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
@@ -44,21 +47,21 @@ class BottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: MenuState.home == selectedMenu
-                      ? kSecondaryColor
-                      : inActiveIconColor,
-                  size: iconSize,
-                ),
-                onPressed: () async{
-                   final data = await Localstore.instance
+                  icon: Icon(
+                    Icons.home,
+                    color: MenuState.home == selectedMenu
+                        ? kSecondaryColor
+                        : inActiveIconColor,
+                    size: iconSize,
+                  ),
+                  onPressed: () async {
+                    final data = await Localstore.instance
                         .collection('login')
                         .doc('loginData')
                         .get();
                     StatelessWidget replacement;
 
-                    if (data != null && data["type"] =="admin") {
+                    if (data != null && data["type"] == "admin") {
                       replacement = AdminHomeScreen();
                     } else {
                       replacement = HomeScreen();
@@ -66,12 +69,10 @@ class BottomNavBar extends StatelessWidget {
 
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) => replacement));
-                  
-                }
-              ),
+                  }),
               IconButton(
                 icon: Icon(
-                  Icons.cut,
+                  Icons.cleaning_services,
                   color: MenuState.services == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
@@ -79,6 +80,17 @@ class BottomNavBar extends StatelessWidget {
                 ),
                 onPressed: () =>
                     Navigator.pushNamed(context, AllServiceScreen.routeName),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.cut,
+                  color: MenuState.styles == selectedMenu
+                      ? kSecondaryColor
+                      : inActiveIconColor,
+                  size: iconSize,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AllHairStylesScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
