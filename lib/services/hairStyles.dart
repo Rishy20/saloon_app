@@ -27,7 +27,7 @@ class HairStylesService {
       'style': hs.style,
       'image': hs.image,
       'description': hs.description,
-      'price': hs.price,
+      'gender':hs.gender
     };
     return hairstyles.add(hairstyle).then((value) {
       print('Hair Styles ${value.id} added successfully');
@@ -39,7 +39,7 @@ class HairStylesService {
       'style': hs.style,
       'image': hs.image,
       'description': hs.description,
-      'price': hs.price,
+      'gender':hs.gender
     };
     return hairstyles.doc(hs.id).update(hairstyle).then((value) {
       print('Hair Styles ${hs.id} updated successfully');
@@ -67,4 +67,8 @@ class HairStylesService {
       print('error occured');
     }
   }
+  Future<int> getHairStylesCount() =>
+      hairstyles.get().then((QuerySnapshot snap) {
+        return snap.docs.length;
+      });
 }

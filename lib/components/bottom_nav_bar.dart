@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
 import 'package:saloon_app/enums.dart';
+import 'package:saloon_app/screens/addAppointments/add_appointment_screen.dart';
+import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
+import 'package:saloon_app/screens/adminHome/admin_home_screen.dart';
 import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
 import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
 import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
@@ -13,6 +16,7 @@ import 'package:saloon_app/screens/profile/profile_screen.dart';
 import 'package:saloon_app/screens/sign_in/sign_in_screen.dart';
 
 import '../constants.dart';
+import '../screens/allAppointments/all_appointment_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
@@ -43,16 +47,29 @@ class BottomNavBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                icon: Icon(
-                  Icons.home,
-                  color: MenuState.home == selectedMenu
-                      ? kSecondaryColor
-                      : inActiveIconColor,
-                  size: iconSize,
-                ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, AllUsersScreen.routeName),
-              ),
+                  icon: Icon(
+                    Icons.home,
+                    color: MenuState.home == selectedMenu
+                        ? kSecondaryColor
+                        : inActiveIconColor,
+                    size: iconSize,
+                  ),
+                  onPressed: () async {
+                    final data = await Localstore.instance
+                        .collection('login')
+                        .doc('loginData')
+                        .get();
+                    StatelessWidget replacement;
+
+                    if (data != null && data["type"] == "admin") {
+                      replacement = AdminHomeScreen();
+                    } else {
+                      replacement = HomeScreen();
+                    }
+
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => replacement));
+                  }),
               IconButton(
                 icon: Icon(
                   Icons.cleaning_services,
@@ -62,7 +79,7 @@ class BottomNavBar extends StatelessWidget {
                   size: iconSize,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, AllSpecialistScreen.routeName),
+                    Navigator.pushNamed(context, AllServiceScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
@@ -83,8 +100,8 @@ class BottomNavBar extends StatelessWidget {
                       : inActiveIconColor,
                   size: iconSize,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, HomeScreen.routeName),
+                onPressed: () => Navigator.pushNamed(
+                    context, AllAppointmentsScreen.routeName),
               ),
               IconButton(
                 icon: Icon(
@@ -98,15 +115,18 @@ class BottomNavBar extends StatelessWidget {
                     Navigator.pushNamed(context, AllSpecialistScreen.routeName),
               ),
               IconButton(
-                icon: Icon(
-                  Icons.supervised_user_circle_sharp,
-                  color: MenuState.profile == selectedMenu
-                      ? kSecondaryColor
-                      : inActiveIconColor,
-                  size: iconSize,
-                ),
-                onPressed: () async {
-                    final data = await Localstore.instance.collection('login').doc('loginData').get();
+                  icon: Icon(
+                    Icons.supervised_user_circle_sharp,
+                    color: MenuState.profile == selectedMenu
+                        ? kSecondaryColor
+                        : inActiveIconColor,
+                    size: iconSize,
+                  ),
+                  onPressed: () async {
+                    final data = await Localstore.instance
+                        .collection('login')
+                        .doc('loginData')
+                        .get();
                     StatelessWidget replacement;
 
                     if (data != null && data["id"] != null) {
@@ -115,11 +135,9 @@ class BottomNavBar extends StatelessWidget {
                       replacement = const SignInScreen();
                     }
 
-                    Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => replacement)
-                    );
-                }
-              ),
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => replacement));
+                  }),
             ],
           ),
         ));

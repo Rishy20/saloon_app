@@ -20,10 +20,10 @@ class EditHairStylesScreen extends StatelessWidget {
         hairstyles: arguments.hairstyles,
       ),
       appBar: AppBar(
-        title: Text("Edit Hair Styles"),
+        title: Text("Edit Hair Style"),
         centerTitle: true,
       ),
-      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.services),
+      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.styles),
     );
   }
 }

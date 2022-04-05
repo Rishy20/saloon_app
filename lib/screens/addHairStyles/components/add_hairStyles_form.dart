@@ -20,14 +20,15 @@ class AddHairStylesForm extends StatefulWidget {
 class _AddHairStylesFormState extends State<AddHairStylesForm> {
   final List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
-  File? imageFile;
+  List<File> imageFiles = [];
   bool imageError = false;
+  bool genderError = false;
   bool isSaving = false;
+  List<String> gender = ["Male", "Female"];
+  String? selectedGender;
 
   TextEditingController style = new TextEditingController();
-  TextEditingController image = new TextEditingController();
   TextEditingController description = new TextEditingController();
-  TextEditingController price = new TextEditingController();
 
   void addError({String error = ''}) {
     if (!errors.contains(error))
@@ -70,32 +71,69 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
             key: _formKey,
             child: Column(children: [
               buildTextFormField(
-                  label: "Styles",
-                  hint: "Enter Hair Styles",
-                  error: "Please enter a Styles",
+                  label: "Style",
+                  hint: "Enter Hair Style Name",
+                  error: "Please enter a name",
                   controller: style,
                   type: "text"),
-              buildTextFormField(
+              buildSelectField(
+                  label: "Gender",
+                  hint: "Select a Gender",
+                  error: "Please select a gender"),
+              buildMultiLineFormField(
                   label: "Description",
                   hint: "Enter Hair Styles Description",
                   error: "Please enter description",
                   controller: description,
                   type: "text"),
-              buildTextFormField(
-                  label: "Price",
-                  hint: "Enter Hair Styles price",
-                  error: "Please enter the price",
-                  controller: price,
-                  type: "number"),
-              imageFile != null
+              imageFiles.length > 0
                   ? Padding(
                       padding: const EdgeInsets.only(bottom: 16.0),
                       child: Container(
-                          child: Image.file(
-                        imageFile!,
-                        width: 150,
-                        fit: BoxFit.cover,
-                      )),
+                        height: 130,
+                        child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              ...List.generate(
+                                imageFiles.length,
+                                (index) => Stack(
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.all(10),
+                                        child: Image.file(
+                                          imageFiles[index],
+                                          width: 120,
+                                          fit: BoxFit.cover,
+                                        )),
+                                    Positioned(
+                                      top: 0,
+                                      right:
+                                          0, //give the values according to your requirement
+                                      child: GestureDetector(
+                                        onTap: () => {
+                                          setState(() {
+                                            imageFiles.removeAt(index);
+                                          })
+                                        },
+                                        child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: Colors.red),
+                                          child: Icon(
+                                            Icons.cancel,
+                                            size: 24,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                      ),
                     )
                   : Container(),
               PrimaryButton(
@@ -113,29 +151,96 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
               SecondaryButton(
                   text: "Submit",
                   press: () async {
-                    if (imageFile == null) {
+                    if (imageFiles.isEmpty) {
                       setState(() {
                         imageError = true;
                       });
                     }
-                    if (_formKey.currentState!.validate() && !imageError) {
+                    if (selectedGender == null) {
+                      genderError = true;
+                    }
+                    if (_formKey.currentState!.validate() &&
+                        !imageError &&
+                        !genderError) {
                       HairStyles hairStyles = HairStyles();
                       hairStyles.style = style.text;
                       hairStyles.description = description.text;
-                      hairStyles.price = price.text;
+                      hairStyles.gender = selectedGender!;
                       setState(() {
                         isSaving = true;
                       });
                       HairStylesService hairStylesService = HairStylesService();
-                      var imageUrl = await hairStylesService
-                          .uploadHairStylesImage(imageFile!);
-                      hairStyles.image = imageUrl;
+                      List<String> images = [];
+
+                      for (var image in imageFiles) {
+                        var imageUrl = await hairStylesService
+                            .uploadHairStylesImage(image);
+                        images.add(imageUrl);
+                      }
+
+                      hairStyles.image = images;
+
                       hairStylesService.addHairStyle(hairStyles);
                       Navigator.pushNamed(
-                      context, AllHairStylesScreen.routeName);
+                          context, AllHairStylesScreen.routeName);
                     }
                   })
             ]));
+  }
+
+  Column buildSelectField({
+    label: String,
+    hint: String,
+    error: String,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: getProportionateScreenWidth(16),
+              color: Colors.white),
+        ),
+        SizedBox(
+          height: getProportionateScreenWidth(5),
+        ),
+        Container(
+          padding: EdgeInsets.only(top: 8, left: 16, bottom: 8, right: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: kPrimaryContrastColor,
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+                isExpanded: true,
+                value: selectedGender,
+                borderRadius: BorderRadius.circular(8),
+                items: gender.map((String val) {
+                  return new DropdownMenuItem<String>(
+                    value: val,
+                    child: new Text(val),
+                  );
+                }).toList(),
+                hint: Text(
+                  hint,
+                  style: TextStyle(color: kPlaceholderColor, fontSize: 18),
+                ),
+                onChanged: (newVal) {
+                  setState(() {
+                    selectedGender = newVal!;
+                    genderError = false;
+                  });
+                }),
+          ),
+        ),
+        genderError ? FormError(error: error) : Container(),
+        SizedBox(
+          height: getProportionateScreenWidth(20),
+        ),
+      ],
+    );
   }
 
   Column buildTextFormField(
@@ -184,6 +289,53 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
     );
   }
 
+  Column buildMultiLineFormField(
+      {label: String,
+      hint: String,
+      error: String,
+      controller: TextEditingController,
+      type: String}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: getProportionateScreenWidth(16),
+              color: Colors.white),
+        ),
+        SizedBox(
+          height: getProportionateScreenWidth(5),
+        ),
+        TextFormField(
+            keyboardType: TextInputType.multiline,
+            minLines: 4,
+            maxLines: null,
+            controller: controller,
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                removeError(error: error);
+              }
+              return null;
+            },
+            validator: (value) {
+              if (value!.isEmpty) {
+                addError(error: error);
+                return "";
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: hint,
+            )),
+        FormError(error: errors.contains(error) ? error : ''),
+        SizedBox(height: getProportionateScreenHeight(20)),
+      ],
+    );
+  }
+
   /// Get from gallery
   _getFromGallery() async {
     XFile? pickedFile = await ImagePicker().pickImage(
@@ -193,10 +345,6 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
     );
     if (pickedFile != null) {
       _cropImage(pickedFile.path);
-
-      setState(() {
-        // imageFile = File(pickedFile.path);
-      });
     }
   }
 
@@ -218,22 +366,8 @@ class _AddHairStylesFormState extends State<AddHairStylesForm> {
     );
     if (croppedImage != null) {
       setState(() {
-        imageFile = croppedImage;
+        imageFiles.add(croppedImage);
         imageError = false;
-      });
-    }
-  }
-
-  /// Get from Camera
-  _getFromCamera() async {
-    XFile? pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
       });
     }
   }

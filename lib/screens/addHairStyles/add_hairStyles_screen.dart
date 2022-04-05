@@ -18,7 +18,7 @@ class AddHairStylesScreen extends StatelessWidget {
         title: Text("Add HairStyles"),
         centerTitle: true,
       ),
-      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.services),
+      bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.styles),
     );
   }
 }

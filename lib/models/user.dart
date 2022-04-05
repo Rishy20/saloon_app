@@ -9,6 +9,7 @@ class User {
   static const PHONENUMBER = "phoneNumber";
   static const ADDRESS = "address";
   static const AVATAR = "avatar";
+  static const TYPE = "type";
 
   late String _id;
   late String _email;
@@ -18,30 +19,42 @@ class User {
   late String _phoneNumber;
   late String _address;
   late String _avatar;
+  late String _type;
 
   set id(String value) {
     _id = value;
   }
+
   set firstName(String value) {
     _firstName = value;
   }
+
   set lastName(String value) {
     _lastName = value;
   }
+
   set email(String value) {
     _email = value;
   }
+
   set password(String value) {
     _password = value;
   }
+
   set address(String value) {
     _address = value;
   }
+
   set phoneNumber(String value) {
     _phoneNumber = value;
   }
+
   set avatar(String value) {
     _avatar = value;
+  }
+
+  set type(String value) {
+    _type = value;
   }
 
   String get id => _id;
@@ -52,6 +65,7 @@ class User {
   String get address => _address;
   String get phoneNumber => _phoneNumber;
   String get avatar => _avatar;
+  String get type => _type;
 
   User();
 
@@ -65,5 +79,6 @@ class User {
     _address = data[ADDRESS];
     _phoneNumber = data[PHONENUMBER];
     _avatar = data[AVATAR];
+    _type = data[TYPE];
   }
 }

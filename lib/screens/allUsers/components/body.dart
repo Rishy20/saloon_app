@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:saloon_app/components/item_card.dart';
 import 'package:saloon_app/models/user.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/screens/allUsers/all_users_screen.dart';
 import 'package:saloon_app/screens/editUser/edit_user_screen.dart';
 import 'package:saloon_app/services/user.dart';
@@ -33,11 +35,13 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    LoginInfoProvider loginInfoProvider =
+        Provider.of<LoginInfoProvider>(context);
+    var loginInfo = loginInfoProvider.loginInfo;
 
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
-    // var usersProvider = Provider.of<UsersProvider>(context);
+    final double itemWidth = loginInfo != null && loginInfo['type'] == "admin" ? size.width / 2: size.width / 1.6;
 
     return FutureBuilder(
       future:getAllUsers(),

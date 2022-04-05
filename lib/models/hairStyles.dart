@@ -5,19 +5,20 @@ class HairStyles {
   static const STYLE = "style";
   static const IMAGE = "image";
   static const DESCRIPTION = "description";
-  static const PRICE = "price";
+  static const GENDER = "gender";
 
   late String _id;
   late String _style;
-  late String _image;
+  late List<dynamic> _image;
   late String _description;
-  late String _price;
+  late String _gender;
+
 
   set style(String value) {
     _style = value;
   }
 
-  set image(String value) {
+  set image(List<dynamic> value) {
     _image = value;
   }
 
@@ -25,15 +26,15 @@ class HairStyles {
     _description = value;
   }
 
-  set price(String value) {
-    _price = value;
+  set gender(String value) {
+    _gender = value;
   }
 
   String get id => _id;
   String get style => _style;
-  String get image => _image;
+  List<dynamic> get image => _image;
   String get description => _description;
-  String get price => _price;
+  String get gender => _gender;
 
   HairStyles();
 
@@ -43,6 +44,6 @@ class HairStyles {
     _style = data[STYLE];
     _image = data[IMAGE];
     _description = data[DESCRIPTION];
-    _price = data[PRICE];
+    _gender = data[GENDER];
   }
 }

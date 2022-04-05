@@ -25,4 +25,7 @@ class LoginInfoProvider with ChangeNotifier {
     _db.collection('login').doc('loginData').set(loginInfo);
     notifyListeners();
   }
+  void logout(){
+    _loginInfo = null;
+  }
 }

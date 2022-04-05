@@ -65,4 +65,8 @@ class ServiceService {
       print('error occured');
     }
   }
+  Future<int> getServiceCount() =>
+      services.get().then((QuerySnapshot snap) {
+        return snap.docs.length;
+      });
 }

@@ -4,11 +4,13 @@ import 'package:saloon_app/components/item_card.dart';
 import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/models/hairStyles.dart';
 import 'package:saloon_app/models/specialist.dart';
+import 'package:saloon_app/providers/loginInfoProvider.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
 import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 import 'package:saloon_app/screens/editHairStyles/edit_hairStyles_screen.dart';
 import 'package:saloon_app/screens/editSpecialist/edit_specialist_screen.dart';
+import 'package:saloon_app/screens/singleHairStyle/single_hair_style_screen.dart';
 import 'package:saloon_app/services/hairStyles.dart';
 import 'package:saloon_app/services/specialist.dart';
 
@@ -40,10 +42,13 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    LoginInfoProvider loginInfoProvider =
+        Provider.of<LoginInfoProvider>(context);
+    var loginInfo = loginInfoProvider.loginInfo;
 
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
-    final double itemWidth = size.width / 2;
+    final double itemWidth = loginInfo != null && loginInfo['type'] == "admin" ? size.width / 2: size.width / 1.6;
 
     return FutureBuilder(
         future: getAllHairStyles(),
@@ -69,18 +74,27 @@ class _BodyState extends State<Body> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     HairStylesService haristylesService = HairStylesService();
-                    return ItemCard(
-                        image: snapshot.data[index].image,
-                        title: snapshot.data[index].style,
-                        edit: () => {
-                              Navigator.pushNamed(
-                                  context, EditHairStylesScreen.routeName,
-                                  arguments: HairStylesDetailsArguments(
-                                      hairstyles: snapshot.data[index])),
-                            },
-                        delete: () {
-                          showAlertDialog(context, snapshot.data[index].id);
-                        });
+                    return GestureDetector(
+                      onTap:()=>{
+                         Navigator.pushNamed(
+                                    context, SingleHairStylesScreen.routeName,
+                                    arguments: HairStylesDetailsArguments(
+                                        hairstyles: snapshot.data[index]))
+                              },
+                      
+                      child: ItemCard(
+                          image: snapshot.data[index].image[0],
+                          title: snapshot.data[index].style,
+                          edit: () => {
+                                Navigator.pushNamed(
+                                    context, EditHairStylesScreen.routeName,
+                                    arguments: HairStylesDetailsArguments(
+                                        hairstyles: snapshot.data[index])),
+                              },
+                          delete: () {
+                            showAlertDialog(context, snapshot.data[index].id);
+                          }),
+                    );
                   }),
             );
           }
