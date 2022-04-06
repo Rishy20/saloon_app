@@ -4,10 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:saloon_app/components/hairstyles_group.dart';
 import 'package:saloon_app/components/services_group.dart';
 import 'package:saloon_app/components/specialist_item_group.dart';
-import 'package:saloon_app/components/topbar.dart';
-import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/providers/specialistProvider.dart';
-import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
 
 class Body extends StatelessWidget {
   @override

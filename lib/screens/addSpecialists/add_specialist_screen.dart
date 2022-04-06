@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:saloon_app/components/bottom_nav_bar.dart';
-import 'package:saloon_app/constants.dart';
 import 'package:saloon_app/enums.dart';
 import 'package:saloon_app/screens/addSpecialists/components/body.dart';
-import 'package:saloon_app/size_config.dart';
 
 class AddSpecialistsScreen extends StatelessWidget {
   static String routeName = "/specialists/add";
@@ -21,5 +19,4 @@ class AddSpecialistsScreen extends StatelessWidget {
       bottomNavigationBar: BottomNavBar(selectedMenu: MenuState.specialists),
     );
   }
-
 }

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:localstore/localstore.dart';
 import 'package:saloon_app/enums.dart';
-import 'package:saloon_app/screens/addAppointments/add_appointment_screen.dart';
-import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
 import 'package:saloon_app/screens/adminHome/admin_home_screen.dart';
-import 'package:saloon_app/screens/addHairStyles/add_hairStyles_screen.dart';
-import 'package:saloon_app/screens/addSpecialists/add_specialist_screen.dart';
 import 'package:saloon_app/screens/allHairStyles/all_hairstyle_screen.dart';
 import 'package:saloon_app/screens/allServices/all_services_screen.dart';
 import 'package:saloon_app/screens/allSpecialists/all_specialist_screen.dart';
-import 'package:saloon_app/screens/AddServices/add_service_screen.dart';
-import 'package:saloon_app/screens/allUsers/all_users_screen.dart';
 import 'package:saloon_app/screens/home/home_screen.dart';
 import 'package:saloon_app/screens/profile/profile_screen.dart';
 import 'package:saloon_app/screens/sign_in/sign_in_screen.dart';
@@ -72,7 +66,7 @@ class BottomNavBar extends StatelessWidget {
                   }),
               IconButton(
                 icon: Icon(
-                  Icons.cleaning_services,
+                  Icons.cut,
                   color: MenuState.services == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
@@ -83,7 +77,7 @@ class BottomNavBar extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.cut,
+                  Icons.face,
                   color: MenuState.styles == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
@@ -105,7 +99,7 @@ class BottomNavBar extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
-                  Icons.verified_user,
+                  Icons.engineering,
                   color: MenuState.specialists == selectedMenu
                       ? kSecondaryColor
                       : inActiveIconColor,
