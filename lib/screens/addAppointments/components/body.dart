@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:saloon_app/screens/addAppointments/components/add_appointment_form.dart';
-
-
-import '../../../constants.dart';
 
 class Body extends StatefulWidget {
   @override

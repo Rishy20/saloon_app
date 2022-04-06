@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -24,7 +23,6 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
   final List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
   late Specialist specialist;
-  
 
   File? imageFile;
 
@@ -33,15 +31,15 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
   TextEditingController contact = new TextEditingController();
   TextEditingController designation = new TextEditingController();
 
-  void initState(){
+  void initState() {
     specialist = widget.specialist;
 
     fname.text = specialist.firstName;
     lname.text = specialist.lastName;
     contact.text = specialist.contact;
     designation.text = specialist.designation;
-
   }
+
   void addError({String error = ''}) {
     if (!errors.contains(error))
       setState(() {
@@ -67,55 +65,56 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
               error: "Please enter a first name",
               controller: fname,
               type: "text"),
-              buildTextFormField(
+          buildTextFormField(
               label: "Last Name",
               hint: "Enter specialists's last name",
               error: "Please enter a last name",
               controller: lname,
               type: "text"),
-              buildTextFormField(
+          buildTextFormField(
               label: "Contact",
               hint: "Enter specialists's contact number",
               error: "Please enter a contact number",
               controller: contact,
               type: "number"),
-              buildTextFormField(
+          buildTextFormField(
               label: "Designation",
               hint: "Enter specialists's designation",
               error: "Please enter a designation",
               controller: designation,
               type: "text"),
-              
-             imageFile == null && specialist.image != "" ? Padding(
-                 padding: const EdgeInsets.only(bottom:16.0),
-                 child: Container(
-              child:  Image.network(
-                  specialist.image,
-                  width: 150,
-                  fit: BoxFit.cover,
-              ))):Container(),
-
-              imageFile != null ? Padding(
-                 padding: const EdgeInsets.only(bottom:16.0),
-                 child: Container(
-              child:  Image.file(
-                  imageFile!,
-                  width: 150,
-                  fit: BoxFit.cover,
-              )),
-               ):Container(),
-
-
-               PrimaryButton(
+          imageFile == null && specialist.image != ""
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Container(
+                      child: Image.network(
+                    specialist.image,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  )))
+              : Container(),
+          imageFile != null
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Container(
+                      child: Image.file(
+                    imageFile!,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  )),
+                )
+              : Container(),
+          PrimaryButton(
               text: "Edit Specialist Image",
               press: () {
                 _getFromGallery();
               }),
-              SizedBox(height: 20,),
-             
+          SizedBox(
+            height: 20,
+          ),
           SecondaryButton(
               text: "Submit",
-              press: () async{
+              press: () async {
                 if (_formKey.currentState!.validate()) {
                   specialist.firstName = fname.text;
                   specialist.lastName = lname.text;
@@ -123,13 +122,13 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
                   specialist.designation = designation.text;
 
                   SpecialistService specialistService = SpecialistService();
-                  if(imageFile != null){
-                    var imageUrl = await specialistService.uploadSpecialistImage(imageFile!);
+                  if (imageFile != null) {
+                    var imageUrl = await specialistService
+                        .uploadSpecialistImage(imageFile!);
                     specialist.image = imageUrl;
                   }
                   specialistService.updateSpecialist(specialist);
-                   Navigator.pushNamed(
-            context, AllSpecialistScreen.routeName);
+                  Navigator.pushNamed(context, AllSpecialistScreen.routeName);
                 }
               })
         ]));
@@ -189,7 +188,7 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
       maxHeight: 1200,
     );
     if (pickedFile != null) {
-        _cropImage(pickedFile.path);
+      _cropImage(pickedFile.path);
 
       setState(() {
         // imageFile = File(pickedFile.path);
@@ -197,30 +196,29 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
     }
   }
 
-     /// Crop Image
+  /// Crop Image
   _cropImage(filePath) async {
     ImageCropper cropper = ImageCropper();
     File? croppedImage = await cropper.cropImage(
       sourcePath: filePath,
       maxWidth: 1200,
       maxHeight: 1200,
-       aspectRatioPresets: [
+      aspectRatioPresets: [
         CropAspectRatioPreset.square,
       ],
       androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Crop Image',
           toolbarColor: kPrimaryContrastColor,
           toolbarWidgetColor: kSecondaryColor,
-          activeControlsWidgetColor:kSecondaryColor),
+          activeControlsWidgetColor: kSecondaryColor),
     );
     if (croppedImage != null) {
       setState(() {
-      imageFile = croppedImage;
-
+        imageFile = croppedImage;
       });
     }
-  
-}
+  }
+
   /// Get from Camera
   _getFromCamera() async {
     XFile? pickedFile = await ImagePicker().pickImage(
@@ -230,10 +228,8 @@ class _EditSpecialistFormState extends State<EditSpecialistForm> {
     );
     if (pickedFile != null) {
       setState(() {
-                imageFile = File(pickedFile.path);
-
+        imageFile = File(pickedFile.path);
       });
     }
   }
 }
- 
