@@ -72,6 +72,11 @@ class _EditAppointmentFormState extends State<EditAppointmentForm> {
     specialistsProvider =
         Provider.of<SpecialistsProvider>(context, listen: false);
     selectedSpecialist = getSpecialistIndex(appointment.specialist);
+    int index = 0;
+    for (var service in widget.appointment.service) {
+      selectedChoices.add(Choice(id: index, title: service));
+      index++;
+    }
   }
 
   int getSpecialistIndex(String id) {

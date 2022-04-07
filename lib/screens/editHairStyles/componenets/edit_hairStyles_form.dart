@@ -46,13 +46,11 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
   }
 
   void setImages() async {
-    int i = 0;
     for (var image in hairstyles.image) {
-      File imageFile = await _fileFromImageUrl(image, i);
+      File imageFile = await _fileFromImageUrl(image);
       setState(() {
         imageFiles.add(imageFile);
       });
-      i++;
     }
     setState(() {
       isLoading = false;
@@ -215,12 +213,12 @@ class _EditHairStylesFormState extends State<EditHairStylesForm> {
             ]));
   }
 
-  Future<File> _fileFromImageUrl(String imageUrl, int index) async {
+  Future<File> _fileFromImageUrl(String imageUrl) async {
     final response = await http.get(Uri.parse(imageUrl));
 
     final documentDirectory = await getApplicationDocumentsDirectory();
-
-    final file = File(join(documentDirectory.path, '${index}.png'));
+    final imageName = imageUrl.split(RegExp(r'(%2F)..*(%2F)'))[1].split(".")[0];
+    final file = File(join(documentDirectory.path, '${imageName}.png'));
 
     file.writeAsBytesSync(response.bodyBytes);
 
