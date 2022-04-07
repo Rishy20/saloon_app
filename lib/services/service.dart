@@ -26,7 +26,8 @@ class ServiceService {
     Map<String, dynamic> service = {
       'name': se.name,
       'price': se.price,
-      'image': se.image
+      'image': se.image,
+      'description': se.description
     };
     return services.add(service).then((value) {
       print('Service ${value.id} added successfully');
@@ -37,7 +38,8 @@ class ServiceService {
     Map<String, dynamic> service = {
       'name': se.name,
       'price': se.price,
-      'image': se.image
+      'image': se.image,
+      'description': se.description
     };
     return services.doc(se.id).update(service).then((value) {
       print('Service ${se.id} updated successfully');
@@ -65,8 +67,8 @@ class ServiceService {
       print('error occured');
     }
   }
-  Future<int> getServiceCount() =>
-      services.get().then((QuerySnapshot snap) {
+
+  Future<int> getServiceCount() => services.get().then((QuerySnapshot snap) {
         return snap.docs.length;
       });
 }
